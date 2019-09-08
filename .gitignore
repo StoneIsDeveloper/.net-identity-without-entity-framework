@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs/CustomMVCIdentity
+/CustomMVCIdentity/bin
+/CustomMVCIdentity/obj/Debug
+/IdentityManagement/bin/Debug
+/IdentityManagement/obj/Debug
