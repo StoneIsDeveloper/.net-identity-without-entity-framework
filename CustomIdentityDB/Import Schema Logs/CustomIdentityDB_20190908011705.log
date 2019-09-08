@@ -1,0 +1,75 @@
+2019/9/8 21:17:05	This log contains information about the import schema operation into project 'CustomIdentityDB' on computer 'DESKTOP-PTR0L8C' by user 'li'.
+2019/9/8 21:17:05	Import of database schema has started.
+2019/9/8 21:17:18	Gathering database options
+2019/9/8 21:17:18	Gathering users
+2019/9/8 21:17:18	Gathering roles
+2019/9/8 21:17:18	Gathering application roles
+2019/9/8 21:17:18	Gathering role memberships
+2019/9/8 21:17:18	Gathering filegroups
+2019/9/8 21:17:18	Gathering full-text catalogs
+2019/9/8 21:17:18	Gathering assemblies
+2019/9/8 21:17:18	Gathering certificates
+2019/9/8 21:17:18	Gathering asymmetric keys
+2019/9/8 21:17:18	Gathering symmetric keys
+2019/9/8 21:17:18	Gathering encrypted symmetric keys
+2019/9/8 21:17:18	Gathering schemas
+2019/9/8 21:17:19	Gathering XML schema collections
+2019/9/8 21:17:19	Gathering user-defined data types
+2019/9/8 21:17:19	Gathering user-defined types
+2019/9/8 21:17:19	Gathering table types
+2019/9/8 21:17:19	Gathering unique keys for table types
+2019/9/8 21:17:19	Gathering primary keys for table types
+2019/9/8 21:17:19	Gathering indexes for table types
+2019/9/8 21:17:19	Gathering check constraints for table types
+2019/9/8 21:17:19	Gathering default constraints for table types
+2019/9/8 21:17:19	Gathering partition functions
+2019/9/8 21:17:19	Gathering partition schemes
+2019/9/8 21:17:19	Gathering functions
+2019/9/8 21:17:19	Gathering encrypted functions
+2019/9/8 21:17:19	Gathering aggregates
+2019/9/8 21:17:19	Gathering procedures
+2019/9/8 21:17:19	Gathering encrypted procedures
+2019/9/8 21:17:19	Gathering tables
+2019/9/8 21:17:19	Gathering primary keys
+2019/9/8 21:17:19	Gathering unique constraints
+2019/9/8 21:17:19	Gathering foreign keys
+2019/9/8 21:17:19	Gathering default constraints
+2019/9/8 21:17:19	Gathering check constraints
+2019/9/8 21:17:19	Gathering views
+2019/9/8 21:17:19	Gathering encrypted views
+2019/9/8 21:17:19	Gathering indexes
+2019/9/8 21:17:19	Gathering statistics
+2019/9/8 21:17:19	Gathering full-text index stoplists
+2019/9/8 21:17:19	Gathering search property lists
+2019/9/8 21:17:19	Gathering search properties
+2019/9/8 21:17:19	Gathering full-text indexes
+2019/9/8 21:17:19	Gathering column store indexes
+2019/9/8 21:17:19	Gathering spatial indexes
+2019/9/8 21:17:19	Gathering XML indexes
+2019/9/8 21:17:19	Gathering Selective XML indexes
+2019/9/8 21:17:19	Gathering encrypted triggers
+2019/9/8 21:17:19	Gathering triggers
+2019/9/8 21:17:19	Gathering encrypted and clr ddl triggers
+2019/9/8 21:17:19	Gathering ddl triggers
+2019/9/8 21:17:19	Gathering synonyms
+2019/9/8 21:17:19	Gathering defaults
+2019/9/8 21:17:19	Gathering data constraint uddt bindings
+2019/9/8 21:17:19	Gathering rules
+2019/9/8 21:17:19	Gathering data constraint uddt bindings
+2019/9/8 21:17:19	Gathering message types
+2019/9/8 21:17:19	Gathering queues
+2019/9/8 21:17:19	Gathering contracts
+2019/9/8 21:17:19	Gathering services
+2019/9/8 21:17:19	Gathering event notifications
+2019/9/8 21:17:19	Gathering remote service bindings
+2019/9/8 21:17:19	Gathering broker priorities
+2019/9/8 21:17:19	Gathering signatures
+2019/9/8 21:17:19	Gathering data compression options
+2019/9/8 21:17:19	Gathering sequence types
+2019/9/8 21:17:19	Gathering extended properties
+2019/9/8 21:17:20	Gathering credentials
+2019/9/8 21:17:20	Gathering logins
+2019/9/8 21:17:20	Gathering server audits
+2019/9/8 21:17:20	Finished importing database.
+2019/9/8 21:17:20	A summary of the import was saved to the following location: F:\2019Projects\.net-identity-without-entity-framework\CustomIdentityDB\Import Schema Logs\CustomIdentityDB_20190908011705.log
+2019/9/8 21:17:20	Click Finish to continue...
