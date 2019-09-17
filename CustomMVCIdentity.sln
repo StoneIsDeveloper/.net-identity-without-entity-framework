@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityManagement", "Ident
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CustomIdentityDB", "CustomIdentityDB\CustomIdentityDB.sqlproj", "{FE520448-04A9-4DD8-A889-560263B1258A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.IdentityLibrary", "Identity.IdentityLibrary\Identity.IdentityLibrary.csproj", "{70C3F4CD-FB55-4562-8F7B-7E7840926E1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.ModelsLibrary", "Identity.ModelsLibrary\Identity.ModelsLibrary.csproj", "{155D4845-A64C-42DB-80BA-C8A44495D884}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,14 @@ Global
 		{FE520448-04A9-4DD8-A889-560263B1258A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE520448-04A9-4DD8-A889-560263B1258A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FE520448-04A9-4DD8-A889-560263B1258A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{70C3F4CD-FB55-4562-8F7B-7E7840926E1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70C3F4CD-FB55-4562-8F7B-7E7840926E1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70C3F4CD-FB55-4562-8F7B-7E7840926E1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70C3F4CD-FB55-4562-8F7B-7E7840926E1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{155D4845-A64C-42DB-80BA-C8A44495D884}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{155D4845-A64C-42DB-80BA-C8A44495D884}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{155D4845-A64C-42DB-80BA-C8A44495D884}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{155D4845-A64C-42DB-80BA-C8A44495D884}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

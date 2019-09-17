@@ -9,3 +9,9 @@
 /IdentityManagement/obj/Debug
 /CustomIdentityDB/bin/Debug
 /CustomIdentityDB/obj/Debug
+/Identity.IdentityLibrary/bin/Debug
+/Identity.IdentityLibrary/obj/Debug
+/Identity.ModelsLibrary/bin/Debug
+/Identity.ModelsLibrary/obj/Debug
+/CustomIdentityDB/CustomIdentityDB.dbmdl
+/CustomIdentityDB/CustomIdentityDB.jfm

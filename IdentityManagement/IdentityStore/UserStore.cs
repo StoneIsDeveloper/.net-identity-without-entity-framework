@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace IdentityManagement.IdentityStore
 {
-    public class UserStore : IUserStore<ApplicationUser>, IUserRoleStore<ApplicationUser>
+    public class UserStore : IUserStore<ApplicationUser>, 
+        IUserRoleStore<ApplicationUser>
     {
         #region IUserStore
         public Task CreateAsync(ApplicationUser user)
@@ -22,7 +23,8 @@ namespace IdentityManagement.IdentityStore
                     UserController.NewUser(user);
                 });
             }
-            throw new ArgumentNullException("user");
+
+            return Task.FromResult(0);
         }
 
         public Task DeleteAsync(ApplicationUser user)
