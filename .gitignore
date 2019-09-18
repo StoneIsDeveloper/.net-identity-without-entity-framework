@@ -15,3 +15,9 @@
 /Identity.ModelsLibrary/obj/Debug
 /CustomIdentityDB/CustomIdentityDB.dbmdl
 /CustomIdentityDB/CustomIdentityDB.jfm
+/Identity.ApiLibrary/obj/Debug
+/Identity.ApiLibrary/Properties/AssemblyInfo.cs
+/Identity.ApiLibrary/bin/Debug
+/Identity.DataLibrary/bin/Debug
+/Identity.DataLibrary/obj/Debug
+/packages

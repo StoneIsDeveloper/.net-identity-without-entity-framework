@@ -179,6 +179,14 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Identity.IdentityLibrary\Identity.IdentityLibrary.csproj">
+      <Project>{70C3F4CD-FB55-4562-8F7B-7E7840926E1E}</Project>
+      <Name>Identity.IdentityLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Identity.ModelsLibrary\Identity.ModelsLibrary.csproj">
+      <Project>{155D4845-A64C-42DB-80BA-C8A44495D884}</Project>
+      <Name>Identity.ModelsLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IdentityManagement\IdentityManagement.csproj">
       <Project>{02ede15a-e67d-4014-9459-cb742192d012}</Project>
       <Name>IdentityManagement</Name>

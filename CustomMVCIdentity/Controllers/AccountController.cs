@@ -21,18 +21,27 @@ namespace CustomMVCIdentity.Controllers
             return View();
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new UserInfo
-                {
-                    UserName = model.Email,
-                    Password = model.Password,
-                    Email = model.Email
-                };
+                //var user = new MyUser
+                //{
+                //    UserName = model.Email,
+                //    Password = model.Password,
+                //    Firstname = model.Firstname,
+                //    Lastname = model.Lastname,
+                //    Active = true,
+                //    EmailVerified = false,
+                //    Phone = model.Phone,
+                //    PhoneVerified = false,
+                //    SecurityStamp = Guid.NewGuid().ToString()
+                //};
 
-               // var result = await UserManager.CreateAsync(user, model.Password);
+                // var result = await UserManager.CreateAsync(user, model.Password);
 
 
             }
