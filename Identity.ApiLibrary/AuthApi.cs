@@ -28,6 +28,27 @@ namespace Identity.ApiLibrary
             return MapUser(_unitOfWork.Users.GetUser(username));
         }
 
+        public User CreateUser(User userEntity)
+        {
+            var userRecord = MapUser(userEntity, false);
+            _unitOfWork.Users.Add(userRecord);
+            _unitOfWork.Complete();
+            return MapUser(userRecord);
+        }
+        
+        public string GetUserPasswordHash(int userId)
+        {
+            return MapUser(_unitOfWork.Users.GetUser(userId)).Password;
+        }
+
+        public void SetUserPasswordHash(int userId,string passwordHash)
+        {
+            var userRecord = _unitOfWork.Users.GetUser(userId);
+            userRecord.Password = passwordHash;
+            _unitOfWork.Complete(); ;
+        }
+
+
         public void Dispose()
         {
             throw new NotImplementedException();

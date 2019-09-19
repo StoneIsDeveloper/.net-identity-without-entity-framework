@@ -17,8 +17,10 @@ namespace Identity.IdentityLibrary
 
         public static MyApplicationUserManager Create(IdentityFactoryOptions<MyApplicationUserManager> options,IOwinContext context)
         {
-            var manager = new MyApplicationUserManager(new MyUserStore(CurrentUser.GetCurrentUserInfo()));
-
+            var manager = new MyApplicationUserManager(new MyUserStore(CurrentUser.GetCurrentUserInfo()))
+            {
+                PasswordHasher = new MyPasswordHasher();
+            };
 
             return null;
         }
