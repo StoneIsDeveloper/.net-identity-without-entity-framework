@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Identity.DataLibrary.IdentityContext;
+using Identity.DataLibrary.IdentityContext.Repositories;
 using Identity.ModelsLibrary;
 using Identity.ModelsLibrary.Records.Identities;
 using DataUser = Identity.DataLibrary.Models.User;
@@ -14,16 +15,19 @@ namespace Identity.ApiLibrary
     public class AuthApi : BaseApi, IDisposable
     {
         private readonly IUnitOfWork _unitOfWork;
+        private UserRepository userRepository;
+
         public AuthApi(AppUserInfo appUserInfo) : base(appUserInfo)
         {
             _unitOfWork = new UnitOfWork(new IdentityContext("DefaultConnection"));
         }
-        public User GetUser(int userId)
+        public User GetUser(string userId)
         {
-            return MapUser(_unitOfWork.Users.GetUser(userId));
+            var user = UserRepository.GetUser(userId);
+            return MapUser(user);
         }
 
-        public User GetUser(string username)
+        public User GetUserByName(string username)
         {
             return MapUser(_unitOfWork.Users.GetUser(username));
         }
@@ -31,8 +35,10 @@ namespace Identity.ApiLibrary
         public User CreateUser(User userEntity)
         {
             var userRecord = MapUser(userEntity, false);
-            _unitOfWork.Users.Add(userRecord);
-            _unitOfWork.Complete();
+            //_unitOfWork.Users.Add(userRecord);
+            //_unitOfWork.Complete();
+            UserRepository.CreateUser(userRecord);
+
             return MapUser(userRecord);
         }
         
@@ -69,7 +75,7 @@ namespace Identity.ApiLibrary
                 SecurityStamp = user.SecurityStamp,
                 Username = user.UserName,
                 Active = user.Active,
-                CreatedOn = user.CreatedOn,
+                CreatedOnDate = user.CreatedOn,
                 Deleted = user.Deleted,
                 ProfilePic = user.ProfilePic
             };
@@ -90,11 +96,11 @@ namespace Identity.ApiLibrary
                 SecurityStamp = user.SecurityStamp,
                 UserName = user.Username,
                 Active = user.Active,
-                CreatedOn = user.CreatedOn,
+                CreatedOn = user.CreatedOnDate,
                 Deleted = user.Deleted,
                 ProfilePic = user.ProfilePic,
-                UserRoles = user.UserRole.Select(r => new RecordIdentity() { Id = r.Role.Id, Name = r.Role.Name }).ToList(),
-                Roles = user.UserRole.Select(r => r.Role.Name).ToList()
+                //UserRoles = user.UserRole.Select(r => new RecordIdentity() { Id = r.Role.Id, Name = r.Role.Name }).ToList(),
+                //Roles = user.UserRole.Select(r => r.Role.Name).ToList()
             };
         }
 

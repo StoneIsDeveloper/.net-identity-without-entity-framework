@@ -39,16 +39,24 @@ namespace Identity.IdentityLibrary
             };
             _userService.CreateUser(userEntity);
 
-            throw new NotImplementedException();
+            return Task.FromResult(0);
         }
 
         public Task DeleteAsync(MyUser user)
         {
-            throw new NotImplementedException();
+            //User should not delete itself
+            return Task.FromResult(0);
         }
         public Task<MyUser> FindByIdAsync(string userId)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                return Task.FromResult(default(MyUser));
+            }
+
+            var id = int.Parse(userId);
+            var userRequest = _userService.GetUser(id);
+            return Task.FromResult(userRequest != null ? MappUser(userRequest) : default(MyUser));
         }
 
         public Task<MyUser> FindByNameAsync(string userName)
@@ -106,7 +114,28 @@ namespace Identity.IdentityLibrary
             throw new NotImplementedException();
         }
 
-        
-    
+        public static MyUser MappUser(User record)
+        {
+            var result = new MyUser()
+            {
+                Id = record.Id,
+                Firstname = record.Firstname,
+                Lastname = record.Lastname,
+                Phone = record.Phone,
+                UserName = record.UserName,
+                Password = record.Password,
+                Active = record.Active,
+                SecurityStamp = record.SecurityStamp,
+                EmailVerified = record.EmailVerified,
+                PhoneVerified = record.PhoneVerified,
+                CreatedOn = record.CreatedOn,
+                Deleted = record.Deleted,
+                Roles = record.UserRoles.Select(r => r.Name).Distinct().ToList(),
+            };
+
+            return result;
+        }
+
+
     }
 }

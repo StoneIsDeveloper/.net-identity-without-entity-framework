@@ -9,8 +9,9 @@ namespace Identity.DataLibrary.Models
     public class User : BaseModel
     {
         public bool Active { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public DateTime CreatedOnDate { get; set; }
         public bool Deleted { get; set; }
+        public string Email { get; set; }
         public bool EmailVerified { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
@@ -20,11 +21,14 @@ namespace Identity.DataLibrary.Models
         public string ProfilePic { get; set; }
         public string SecurityStamp { get; set; }
         public string Username { get; set; }
-        public virtual ICollection<UserRole> UserRole { get; set; }
+        //  public virtual ICollection<UserRole> UserRole { get; set; }
+        public  EnumUserStatus  Status { get;set; }
+
+        public virtual ICollection<Role> Roles { get; set; }
 
         public User()
         {
-            UserRole = new List<UserRole>();
+           
         }
     }
 }

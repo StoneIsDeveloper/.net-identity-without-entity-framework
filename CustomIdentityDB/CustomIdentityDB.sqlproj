@@ -80,6 +80,7 @@
     <Build Include="dbo\Tables\Person.sql" />
     <Build Include="dbo\Views\FullPerson.sql" />
     <None Include="PostDeployment\identityInit.sql" />
+    <Build Include="dbo\Stored Procedures\InserUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CustomIdentityDB.refactorlog" />

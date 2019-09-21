@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.4\lib\netstandard2.0\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -57,15 +60,21 @@
     <Compile Include="IdentityContext\Repositories\UserRepository.cs" />
     <Compile Include="IdentityContext\UnitOfWork.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\Enum.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Identity.ModelsLibrary\Identity.ModelsLibrary.csproj">
       <Project>{155D4845-A64C-42DB-80BA-C8A44495D884}</Project>
       <Name>Identity.ModelsLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IdentityManagement\IdentityManagement.csproj">
+      <Project>{02EDE15A-E67D-4014-9459-CB742192D012}</Project>
+      <Name>IdentityManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

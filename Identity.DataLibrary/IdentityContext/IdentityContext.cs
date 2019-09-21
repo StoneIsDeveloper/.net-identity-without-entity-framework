@@ -1,4 +1,4 @@
-﻿using Identity.ModelsLibrary;
+﻿using Identity.DataLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IdentityManagement.Utilities
+namespace Identity.DataLibrary.Models
 {
+    public  class Enum
+    {
+    }
     public enum EnumUserStatus
     {
         Pending = 0,

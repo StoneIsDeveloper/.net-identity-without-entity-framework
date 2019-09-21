@@ -13,7 +13,7 @@ namespace Identity.DataLibrary.Models
 
         public Role()
         {
-            UserRole = new List<UserRole>();
+           // UserRole = new List<UserRole>();
         }
     }
 }
