@@ -9,6 +9,13 @@ namespace Identity.ServicesLibrary
 {
     public class SendEmailService
     {
+        #region 发送方信息
+        private static readonly string smtpServer = "smtp.163.com"; //SMTP服务器
+        private static readonly string mailFrom = "m18146611430@163.com"; //登陆用户名
+        private static readonly string userPassword = "li3963li2072";//登陆密码
+        private static readonly int port = 25; //设置邮箱端口，pop3端口:110, smtp端口是:25
+        #endregion
+
         private MailAddress _from;
         private string _username;
         private string _password;
@@ -37,11 +44,11 @@ namespace Identity.ServicesLibrary
 
         private void Init()
         {
-            _username = "email";
-            _password = "password";
-            _port = 123;
-            _host = "host";
-            _from = new MailAddress("email", "Display Name");
+            _username = mailFrom;
+            _password = userPassword;
+            _port = port;
+            _host = smtpServer;
+            _from = new MailAddress(mailFrom);
         }
 
         public void SendEmail()

@@ -18,15 +18,19 @@ namespace Identity.DataLibrary.IdentityContext.Repositories
         {
         }
 
-        //public User GetUser(int userId)
-        //{
-        //    return _context.Users.Include(u => u.UserRole).FirstOrDefault(u => u.Id == userId);            
-        //}
         public static User GetUser(int id)
         {
             List<ParameterInfo> parameters = new List<ParameterInfo>();
             parameters.Add(new ParameterInfo() { ParameterName = "ID", ParameterValue = id });
             var spName = "dbo.GetUserByID";
+            User oUser = SqlHelper.GetRecord<User>(spName, parameters);
+            return oUser;
+        }
+        public static User GetUser(string email)
+        {
+            List<ParameterInfo> parameters = new List<ParameterInfo>();
+            parameters.Add(new ParameterInfo() { ParameterName = "Email", ParameterValue = email });
+            var spName = "dbo.GetUserByEmail";
             User oUser = SqlHelper.GetRecord<User>(spName, parameters);
             return oUser;
         }
@@ -70,6 +74,11 @@ namespace Identity.DataLibrary.IdentityContext.Repositories
             }
             user.Id = userID;
 
+            return user;
+        }
+
+        public static User UpdateUser(User user)
+        {
             return user;
         }
 

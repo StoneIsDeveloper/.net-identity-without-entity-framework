@@ -11,7 +11,8 @@ namespace Identity.IdentityLibrary
 {
     public class MyUserStore : IUserStore<MyUser, string>,
         IUserLoginStore<MyUser, string>,
-        IUserRoleStore<MyUser, string>
+        IUserRoleStore<MyUser, string>,
+        IUserPasswordStore<MyUser, string>
     {
         private readonly AuthApi _userService;
 
@@ -136,6 +137,21 @@ namespace Identity.IdentityLibrary
             return result;
         }
 
+        #region IUserPasswordStore
+        public Task SetPasswordHashAsync(MyUser user, string passwordHash)
+        {
+            throw new NotImplementedException();
+        }
 
+        public Task<string> GetPasswordHashAsync(MyUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> HasPasswordAsync(MyUser user)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }

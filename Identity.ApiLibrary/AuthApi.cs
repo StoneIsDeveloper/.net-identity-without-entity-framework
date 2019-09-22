@@ -14,46 +14,48 @@ namespace Identity.ApiLibrary
 {
     public class AuthApi : BaseApi, IDisposable
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private UserRepository userRepository;
-
+        public AuthApi()
+        {
+        }
         public AuthApi(AppUserInfo appUserInfo) : base(appUserInfo)
         {
-            _unitOfWork = new UnitOfWork(new IdentityContext("DefaultConnection"));
         }
-        public User GetUser(string userId)
+        public User GetUser(int userId)
         {
             var user = UserRepository.GetUser(userId);
             return MapUser(user);
         }
 
+        public User GetUser(string email)
+        {
+            var user = UserRepository.GetUser(email);
+            return MapUser(user);
+        }
+
         public User GetUserByName(string username)
         {
-            return MapUser(_unitOfWork.Users.GetUser(username));
+            return MapUser(UserRepository.GetUserByName(username));
         }
 
         public User CreateUser(User userEntity)
         {
             var userRecord = MapUser(userEntity, false);
-            //_unitOfWork.Users.Add(userRecord);
-            //_unitOfWork.Complete();
             UserRepository.CreateUser(userRecord);
-
             return MapUser(userRecord);
         }
         
         public string GetUserPasswordHash(int userId)
         {
-            return MapUser(_unitOfWork.Users.GetUser(userId)).Password;
+            var user = UserRepository.GetUser(userId);
+            return MapUser(user).Password;
         }
 
         public void SetUserPasswordHash(int userId,string passwordHash)
         {
-            var userRecord = _unitOfWork.Users.GetUser(userId);
+            var userRecord = UserRepository.GetUser(userId);
             userRecord.Password = passwordHash;
-            _unitOfWork.Complete(); ;
+            UserRepository.UpdateUser(userRecord);
         }
-
 
         public void Dispose()
         {

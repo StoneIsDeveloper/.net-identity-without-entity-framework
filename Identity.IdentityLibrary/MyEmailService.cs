@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Identity.ServicesLibrary;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace Identity.IdentityLibrary
     {
         public Task SendAsync(IdentityMessage message)
         {
-            throw new NotImplementedException();
+            SendEmail(message as MyIdentityMessage);
+            return Task.FromResult(0);
         }
 
         public void SendEmail(MyIdentityMessage message)

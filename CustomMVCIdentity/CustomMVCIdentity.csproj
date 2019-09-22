@@ -143,6 +143,7 @@
   <ItemGroup>
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -151,7 +152,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\StandardMessages.cs" />
     <Compile Include="Models\SystemViewModels\RegisterVeiwModel.cs" />
+    <Compile Include="Models\ViewMessagesGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -179,6 +182,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Identity.ApiLibrary\Identity.ApiLibrary.csproj">
+      <Project>{A5D41EF4-4EC3-465C-934F-7388AE6C1439}</Project>
+      <Name>Identity.ApiLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Identity.IdentityLibrary\Identity.IdentityLibrary.csproj">
       <Project>{70C3F4CD-FB55-4562-8F7B-7E7840926E1E}</Project>
       <Name>Identity.IdentityLibrary</Name>

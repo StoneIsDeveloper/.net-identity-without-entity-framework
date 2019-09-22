@@ -10,6 +10,10 @@ namespace Identity.ApiLibrary
     public abstract class BaseApi
     {
         protected readonly AppUserInfo AppUserInfo;
+        protected BaseApi()
+        {
+        }
+
         protected BaseApi(AppUserInfo appUserInfo)
         {
             AppUserInfo = appUserInfo;

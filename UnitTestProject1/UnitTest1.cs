@@ -5,6 +5,8 @@ using System.Data.SqlClient;
 using Dapper;
 using Identity.DataLibrary.IdentityContext.Repositories;
 using Identity.DataLibrary.Models;
+using Identity.IdentityLibrary;
+using Identity.ServicesLibrary;
 using IdentityManagement.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -81,5 +83,17 @@ namespace UnitTestProject1
 
             var userAddress = UserRepository.GetUserAddress().AsList();
         }
+
+        [TestMethod]
+        public void SendEmail()
+        {
+            MyIdentityMessage message = new MyIdentityMessage()
+            {
+                Destination = "m18146611430@163.com",
+                Subject = "Test Email",
+                Body = "This is a test mail"
+            };
+            new SendEmailService(message.Destination, message.Subject, message.Body).SendEmail();
+          }
     }
 }

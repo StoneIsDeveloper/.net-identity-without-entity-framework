@@ -90,6 +90,10 @@
       <Project>{155D4845-A64C-42DB-80BA-C8A44495D884}</Project>
       <Name>Identity.ModelsLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Identity.ServicesLibrary\Identity.ServicesLibrary.csproj">
+      <Project>{7FD5B130-78A5-4CB6-9324-CDB11559BB02}</Project>
+      <Name>Identity.ServicesLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
