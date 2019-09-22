@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Identity.DataLibrary
 {
-    public class Class1
+    public class ParameterInfo
     {
+        public string ParameterName { get; set; }
+        public object ParameterValue { get; set; }
     }
 }

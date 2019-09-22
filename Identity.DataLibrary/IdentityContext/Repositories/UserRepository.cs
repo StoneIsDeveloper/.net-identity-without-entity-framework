@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using Identity.DataLibrary.Core;
 using Identity.DataLibrary.Models;
-using IdentityManagement.Data;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -23,11 +22,12 @@ namespace Identity.DataLibrary.IdentityContext.Repositories
         //{
         //    return _context.Users.Include(u => u.UserRole).FirstOrDefault(u => u.Id == userId);            
         //}
-        public static User GetUser(string id)
+        public static User GetUser(int id)
         {
             List<ParameterInfo> parameters = new List<ParameterInfo>();
-            parameters.Add(new ParameterInfo() { ParameterName = "Id", ParameterValue = id });
-            User oUser = SqlHelper.GetRecord<User>("GetUser", parameters);
+            parameters.Add(new ParameterInfo() { ParameterName = "ID", ParameterValue = id });
+            var spName = "dbo.GetUserByID";
+            User oUser = SqlHelper.GetRecord<User>(spName, parameters);
             return oUser;
         }
 
@@ -35,14 +35,15 @@ namespace Identity.DataLibrary.IdentityContext.Repositories
         {
             List<ParameterInfo> parameters = new List<ParameterInfo>();
             parameters.Add(new ParameterInfo() { ParameterName = "UserName", ParameterValue = userName });
-            User oUser = SqlHelper.GetRecord<User>("GetUser", parameters);
+            var spName = "dbo.GetUserByUserName";
+            User oUser = SqlHelper.GetRecord<User>(spName, parameters);
             return oUser;
         }
 
         public static User CreateUser(User user)
         {          
             DynamicParameters parameters = new DynamicParameters();
-
+            #region parameters
             parameters.Add("@ID", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
             parameters.Add("@UserName", user.Username);
             parameters.Add("@Email", user.Email);
@@ -57,7 +58,7 @@ namespace Identity.DataLibrary.IdentityContext.Repositories
             parameters.Add("@PhoneVerified", user.PhoneVerified);
             parameters.Add("@ProfilePic", user.ProfilePic);
             parameters.Add("@SecurityStamp", user.SecurityStamp);
-
+            #endregion 
             var spName = "dbo.InsertUser";
             var userID = 0;
             using (SqlConnection conn = new SqlConnection(Util.ConnectionString))
@@ -71,5 +72,87 @@ namespace Identity.DataLibrary.IdentityContext.Repositories
 
             return user;
         }
+
+        public static IEnumerable<User> GetAllUsers()
+        {
+            var sql = @"select u.*, r.* 
+                        from dbo.Users u
+                        left join dbo.UserRoles a on a.UserID = u.Id
+                        left join dbo.Roles r on a.RoleID = r.Id";
+            using (var conn = new SqlConnection(Util.ConnectionString))
+            {
+                conn.Open();
+                var lookup = new Dictionary<int, User>();
+                var list = conn.Query<User, Role, User>(sql, (appUser, role) =>
+                {
+                    User userEntity;
+                    if (!lookup.TryGetValue(appUser.Id, out userEntity))
+                    {
+                        userEntity = appUser;
+                        lookup.Add(appUser.Id, userEntity);
+                    }
+                    if (userEntity.Roles == null)
+                    {
+                        userEntity.Roles = new List<Role>();
+                    }
+                       
+                    if(role!= null)
+                    {
+                        if (!userEntity.Roles.Any(x => x.Id == role.Id))
+                        {
+                            userEntity.Roles.Add(role);
+                        }
+                    }
+                       
+
+                    return appUser;
+                }, splitOn: "Id").ToList();
+
+                conn.Close();
+                return lookup.Values.ToList();
+
+            }
+
+        }
+
+        public static IEnumerable<User> GetUserAddress()
+        {
+            var sql = @"select u.*,a.* 
+                        from  dbo.Users u
+                        left join dbo.Address a on a.UserID = U.Id";
+            using (var conn = new SqlConnection(Util.ConnectionString))
+            {
+                conn.Open();
+                var myUsers = new Dictionary<int, User>();
+
+                conn.Query<User, Address, User>(sql, (appUser, address) =>
+                {
+                    User userEntity;
+                    if(!myUsers.TryGetValue(appUser.Id,out userEntity))
+                    {
+                        myUsers.Add(appUser.Id, userEntity = appUser);
+                    }
+                    // Address
+                    if(userEntity.Addresses == null)
+                    {
+                        userEntity.Addresses = new List<Address>();
+                    }
+                    if(address != null)
+                    {
+                        if(!userEntity.Addresses.Any(x=> x.AddressId == address.AddressId))
+                        {
+                            userEntity.Addresses.Add(address);
+                        }
+                    }
+                    return userEntity;
+
+                }, splitOn: "AddressId");
+                conn.Close();
+
+                return myUsers.Values.ToList();
+            }
+
+        }
+
     }
 }

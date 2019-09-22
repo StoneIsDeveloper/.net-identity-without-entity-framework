@@ -51,7 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Models\Address.cs" />
+    <Compile Include="Util\DapperExtension.cs" />
     <Compile Include="Core\IRepository.cs" />
     <Compile Include="Core\Repository.cs" />
     <Compile Include="IdentityContext\IdentityContext.cs" />
@@ -64,17 +65,15 @@
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRole.cs" />
+    <Compile Include="Util\ParameterInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Util.cs" />
+    <Compile Include="Util\SqlHelper.cs" />
+    <Compile Include="Util\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Identity.ModelsLibrary\Identity.ModelsLibrary.csproj">
       <Project>{155D4845-A64C-42DB-80BA-C8A44495D884}</Project>
       <Name>Identity.ModelsLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IdentityManagement\IdentityManagement.csproj">
-      <Project>{02EDE15A-E67D-4014-9459-CB742192D012}</Project>
-      <Name>IdentityManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

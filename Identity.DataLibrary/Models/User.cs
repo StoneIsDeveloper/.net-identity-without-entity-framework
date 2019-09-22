@@ -25,6 +25,7 @@ namespace Identity.DataLibrary.Models
         public  EnumUserStatus  Status { get;set; }
 
         public virtual ICollection<Role> Roles { get; set; }
+        public virtual ICollection<Address> Addresses { get; set; }
 
         public User()
         {

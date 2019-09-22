@@ -73,5 +73,13 @@ namespace UnitTestProject1
             var userId = user.Id;
 
         }
+
+        [TestMethod]
+        public void GetAllUsers()
+        {
+           // var users = UserRepository.GetAllUsers().AsList();
+
+            var userAddress = UserRepository.GetUserAddress().AsList();
+        }
     }
 }
