@@ -52,11 +52,36 @@ namespace CustomMVCIdentity.Controllers
             }
         }
 
-        // GET: Admin
-        public ActionResult Index()
+        // GET
+        [AllowAnonymous]
+        public ActionResult Login()
         {
             return View();
         }
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // This doesn't count login failures towards account lockout
+            // To enable password failures to trigger account lockout, change to shouldLockout: true
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToLocal(returnUrl);
+                case SignInStatus.LockedOut:
+                    return View("Lockout");
+                case SignInStatus.RequiresVerification:
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, model.RememberMe });
+                default:
+                    AddViewMessage(StandardMessages.CustomMessageError, "Invalid login attempt.");
+                    return View(model);
+            }
+        }
+
 
         // GET: /Account/Register
         [AllowAnonymous]
@@ -128,6 +153,7 @@ namespace CustomMVCIdentity.Controllers
             return View(model);
         }
 
+        #region Helpers
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -135,5 +161,14 @@ namespace CustomMVCIdentity.Controllers
                 ModelState.AddModelError("", error);
             }
         }
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+        #endregion
     }
 }

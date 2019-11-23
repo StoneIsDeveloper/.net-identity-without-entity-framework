@@ -1,12 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using CustomMVCIdentity.Models
+@using System.Web.Optimization
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @{var viewMessageGroups = (List<ViewMessagesGroup>)(TempData["ViewMessages"] ?? null);}
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -20,30 +22,24 @@
                 @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    @if (IdentityManagement.Utilities.Utils.IfUserInRole("Member"))
-                    {
-                        <li>@Html.ActionLink("Member", "Index", "Member")</li>
-                    }else if (IdentityManagement.Utilities.Utils.IfUserInRole("Administrator"))
-                    {
-                        <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
-                    }
-
-                    @if (IdentityManagement.Utilities.Utils.IfUserAuthenticated())
-                    {
-                        <li>@Html.ActionLink("Logout", "Logout", "Login")</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("Login", "Index", "Login")</li>
-                    }
-                </ul>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
             </div>
         </div>
     </div>
 
     <div class="container body-content">
+        @if (viewMessageGroups != null && viewMessageGroups.Any())
+        {
+            @Html.Partial("_ViewMessages")
+        }
+
         @RenderBody()
         <hr />
         <footer>
@@ -51,7 +47,9 @@
         </footer>
     </div>
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/customJs")
+    @RenderSection("scripts", required: false)
 </body>
 </html>
