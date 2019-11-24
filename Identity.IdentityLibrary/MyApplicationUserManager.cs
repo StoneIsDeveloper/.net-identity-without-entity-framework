@@ -60,9 +60,9 @@ namespace Identity.IdentityLibrary
             manager.EmailService = new MyEmailService();
             manager.SmsService = new MySmsService();
             var dataProtectionProvider = options.DataProtectionProvider;
-            if(dataProtectionProvider == null)
+            if(manager.UserTokenProvider == null)
             {
-                manager.UserTokenProvider = new DataProtectorTokenProvider<MyUser, string>(dataProtectionProvider.Create("ASP.NET Identity"));
+                manager.UserTokenProvider = new DataProtectorTokenProvider<MyUser, string>(dataProtectionProvider.Create("Stone ASP.NET Identity"));
             }
             return manager;
         }

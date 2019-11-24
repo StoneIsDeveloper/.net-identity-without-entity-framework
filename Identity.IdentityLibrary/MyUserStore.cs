@@ -12,7 +12,10 @@ namespace Identity.IdentityLibrary
     public class MyUserStore : IUserStore<MyUser, string>,
         IUserLoginStore<MyUser, string>,
         IUserRoleStore<MyUser, string>,
-        IUserPasswordStore<MyUser, string>
+        IUserPasswordStore<MyUser, string>,
+        IUserEmailStore<MyUser, string>,
+        IUserLockoutStore<MyUser, string>,
+        IUserTwoFactorStore<MyUser, string>
     {
         private readonly AuthApi _userService;
 
@@ -22,14 +25,16 @@ namespace Identity.IdentityLibrary
         }
 
         #region IUserStore
-        public Task CreateAsync(MyUser user)
+        public  Task CreateAsync(MyUser user)
         {
+            List<string> errors = new List<string>();
             var userEntity = new User()
             {
                 Firstname = user.Firstname,
                 Lastname = user.Lastname,
                 Phone = user.Phone,
                 UserName = user.UserName,
+                Email = user.Email,
                 Password = user.Password,
                 Active = user.Active,
                 SecurityStamp = user.SecurityStamp,
@@ -38,9 +43,16 @@ namespace Identity.IdentityLibrary
                 CreatedOn = DateTime.Now,
                 Deleted = false
             };
-            _userService.CreateUser(userEntity);
+            var userRecord = _userService.CreateUser(userEntity);
+            var userID = Convert.ToInt64(userRecord.Id);
 
-            return Task.FromResult(0);
+            if (userID > 0)
+                return Task.FromResult(IdentityResult.Success);
+            else
+            {
+                errors.Add($"Create Ueser Failed,User Name:{user.UserName}");
+                return Task.FromResult(IdentityResult.Failed(errors.ToArray()));
+            }
         }
 
         public Task DeleteAsync(MyUser user)
@@ -62,7 +74,8 @@ namespace Identity.IdentityLibrary
 
         public Task<MyUser> FindByNameAsync(string userName)
         {
-            throw new NotImplementedException();
+            var userRequest = _userService.GetUser(userName);
+            return Task.FromResult(userRequest != null ? MappUser(userRequest) : default(MyUser));
         }
         public Task UpdateAsync(MyUser user)
         {
@@ -96,7 +109,8 @@ namespace Identity.IdentityLibrary
         }
         public Task<IList<string>> GetRolesAsync(MyUser user)
         {
-            throw new NotImplementedException();
+            return Task.FromResult((IList<string>)user.Roles);
+
         }
 
         public Task<bool> IsInRoleAsync(MyUser user, string roleName)
@@ -110,9 +124,61 @@ namespace Identity.IdentityLibrary
         }
         #endregion
 
-        public void Dispose()
+        //NOT REQUIRED AT THIS TIME
+        #region IUserLockoutStore
+        public Task<int> GetAccessFailedCountAsync(MyUser user)
+        {
+            return Task.FromResult(0);
+        }
+
+        public Task<bool> GetLockoutEnabledAsync(MyUser user)
+        {
+            return Task.FromResult(false);
+        }
+
+        public Task<DateTimeOffset> GetLockoutEndDateAsync(MyUser user)
         {
             throw new NotImplementedException();
+        }
+
+        public Task<int> IncrementAccessFailedCountAsync(MyUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ResetAccessFailedCountAsync(MyUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetLockoutEnabledAsync(MyUser user, bool enabled)
+        {
+            throw new NotImplementedException();
+            //return Task.FromResult(0);
+        }
+
+        public Task SetLockoutEndDateAsync(MyUser user, DateTimeOffset lockoutEnd)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        //NOT REQUIRED AT THIS TIME
+        #region IUserTwoFactorStore
+        public Task<bool> GetTwoFactorEnabledAsync(MyUser user)
+        {
+            return Task.FromResult(false);
+        }
+
+        public Task SetTwoFactorEnabledAsync(MyUser user, bool enabled)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        public void Dispose()
+        {
+           
         }
 
         public static MyUser MappUser(User record)
@@ -140,18 +206,86 @@ namespace Identity.IdentityLibrary
         #region IUserPasswordStore
         public Task SetPasswordHashAsync(MyUser user, string passwordHash)
         {
-            throw new NotImplementedException();
+            if (!string.IsNullOrWhiteSpace(user.Id))
+            {
+                var id = int.Parse(user.Id);
+                _userService.SetUserPasswordHash(id, passwordHash);
+            }
+
+            user.Password = passwordHash;
+            return Task.FromResult(0);
         }
 
         public Task<string> GetPasswordHashAsync(MyUser user)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(user.Id)) return Task.FromResult(user.Password);
+
+            var id = int.Parse(user.Id);
+            var passwordHash = _userService.GetUserPasswordHash(id);
+            return Task.FromResult(passwordHash);
         }
 
         public Task<bool> HasPasswordAsync(MyUser user)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(user.Id)) return Task.FromResult(!string.IsNullOrWhiteSpace(user.Password));
+
+            var id = int.Parse(user.Id);
+            var passwordHash = _userService.GetUserPasswordHash(id);
+            return Task.FromResult(!string.IsNullOrWhiteSpace(passwordHash));
+        }
+
+        #endregion
+
+        #region EmailStore
+        public Task SetEmailAsync(MyUser user, string email)
+        {
+            if (!string.IsNullOrWhiteSpace(user.Id))
+            {
+                var id = int.Parse(user.Id);
+                _userService.SetUserEmail(id, email);
+            }
+
+            user.UserName = email;
+            return Task.FromResult(0);
+
+            //var userRequest = _userService.GetUser(email);
+            //return Task.FromResult(userRequest != null ? MappUser(userRequest) : default(MyUser));
+        }
+
+        public Task<string> GetEmailAsync(MyUser user)
+        {
+            if (string.IsNullOrWhiteSpace(user.Id)) return Task.FromResult(user.UserName);
+
+            var id = int.Parse(user.Id);
+            var email = _userService.GetUserEmail(id);
+            return Task.FromResult(email);
+        }
+
+        public Task<bool> GetEmailConfirmedAsync(MyUser user)
+        {
+            if (string.IsNullOrWhiteSpace(user.Id)) return Task.FromResult(user.EmailVerified);
+
+            var id = int.Parse(user.Id);
+            var emailVerified = _userService.GetUserEmailVerified(id);
+            return Task.FromResult(emailVerified);
+        }
+
+        public Task SetEmailConfirmedAsync(MyUser user, bool confirmed)
+        {
+            if (string.IsNullOrWhiteSpace(user.Id)) return Task.FromResult(user.EmailVerified);
+
+            var id = int.Parse(user.Id);
+            var emailVerified = _userService.GetUserEmailVerified(id);
+            return Task.FromResult(emailVerified);
+        }
+
+        public Task<MyUser> FindByEmailAsync(string email)
+        {
+            var userRequest = _userService.GetUser(email);
+            return Task.FromResult(userRequest != null ? MappUser(userRequest) : default(MyUser));
         }
         #endregion
+
+
     }
 }

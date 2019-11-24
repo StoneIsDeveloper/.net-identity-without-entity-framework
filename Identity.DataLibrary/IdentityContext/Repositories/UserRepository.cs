@@ -79,6 +79,26 @@ namespace Identity.DataLibrary.IdentityContext.Repositories
 
         public static User UpdateUser(User user)
         {
+            if (user.Id <= 0)
+                throw new Exception("User ID must >=0");
+
+            DynamicParameters parameters = new DynamicParameters();
+            #region parameters
+            parameters.Add("@Id", user.Id);
+            parameters.Add("@Email", user.Email);
+            #endregion
+            var row = 0;
+            var spName = "dbo.UpateUser";
+            using (SqlConnection conn = new SqlConnection(Util.ConnectionString))
+            {
+                conn.Open();
+                row = SqlMapper.Execute(conn, spName, parameters, commandType: CommandType.StoredProcedure);
+                // userID = parameters.Get<Int32>("@ID");
+                conn.Close();
+            }
+            if (row == 0)
+                throw new Exception($"can't find user by UserID:{user.Id}");
+
             return user;
         }
 

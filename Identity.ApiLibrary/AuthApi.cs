@@ -19,7 +19,9 @@ namespace Identity.ApiLibrary
         }
         public AuthApi(AppUserInfo appUserInfo) : base(appUserInfo)
         {
-        }
+        } 
+
+        #region User
         public User GetUser(int userId)
         {
             var user = UserRepository.GetUser(userId);
@@ -43,7 +45,9 @@ namespace Identity.ApiLibrary
             UserRepository.CreateUser(userRecord);
             return MapUser(userRecord);
         }
-        
+        #endregion
+
+        #region Password
         public string GetUserPasswordHash(int userId)
         {
             var user = UserRepository.GetUser(userId);
@@ -56,6 +60,30 @@ namespace Identity.ApiLibrary
             userRecord.Password = passwordHash;
             UserRepository.UpdateUser(userRecord);
         }
+        #endregion
+
+        #region Email
+        public string GetUserEmail(int userId)
+        {
+            var user = UserRepository.GetUser(userId);
+            return MapUser(user).UserName;
+        }
+
+        public bool GetUserEmailVerified(int userId)
+        {
+            var user = UserRepository.GetUser(userId);
+            return MapUser(user).EmailVerified;
+        }
+
+        public void SetUserEmail(int userId, string email)
+        {
+            var userRecord = UserRepository.GetUser(userId);
+            userRecord.Username = email;
+
+           // _unitOfWork.Complete();
+            UserRepository.UpdateUser(userRecord);
+        }
+        #endregion
 
         public void Dispose()
         {
@@ -76,6 +104,7 @@ namespace Identity.ApiLibrary
                 PhoneVerified = user.PhoneVerified,
                 SecurityStamp = user.SecurityStamp,
                 Username = user.UserName,
+                Email = user.Email,
                 Active = user.Active,
                 CreatedOnDate = user.CreatedOn,
                 Deleted = user.Deleted,
@@ -97,6 +126,7 @@ namespace Identity.ApiLibrary
                 PhoneVerified = user.PhoneVerified,
                 SecurityStamp = user.SecurityStamp,
                 UserName = user.Username,
+                Email = user.Email,
                 Active = user.Active,
                 CreatedOn = user.CreatedOnDate,
                 Deleted = user.Deleted,

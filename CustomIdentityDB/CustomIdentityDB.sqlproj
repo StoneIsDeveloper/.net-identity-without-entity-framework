@@ -82,6 +82,7 @@
     <None Include="PostDeployment\identityInit.sql" />
     <Build Include="dbo\Stored Procedures\spUser_GetUserByID.sql" />
     <Build Include="dbo\Stored Procedures\spUser_InsertUser.sql" />
+    <Build Include="dbo\Stored Procedures\spUser_UpdateUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CustomIdentityDB.refactorlog" />
@@ -89,5 +90,6 @@
   <ItemGroup>
     <None Include="dbo\Stored Procedures\spUser_GetUserByUserName.sql" />
     <None Include="dbo\Stored Procedures\spUser_GetUserByEmail.sql" />
+    <None Include="dbo\Tables\Roles.sql" />
   </ItemGroup>
 </Project>

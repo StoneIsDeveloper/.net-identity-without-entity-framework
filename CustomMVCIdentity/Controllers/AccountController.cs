@@ -18,16 +18,10 @@ namespace CustomMVCIdentity.Controllers
     [Authorize]
     public class AccountController :  BaseController
     {
+        #region perproties
         private readonly AuthApi _userService;
         private MyApplicationSignInManager _signInManager;
         private MyApplicationUserManager _userManager;
-
-        public AccountController(MyApplicationUserManager userManager, MyApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
-
         public MyApplicationSignInManager SignInManager
         {
             get
@@ -39,25 +33,41 @@ namespace CustomMVCIdentity.Controllers
                 _signInManager = value;
             }
         }
-
         public MyApplicationUserManager UserManager
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().Get<MyApplicationUserManager>();
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<MyApplicationUserManager>();
             }
             private set
             {
                 _userManager = value;
             }
         }
+        #endregion
 
-        // GET
-        [AllowAnonymous]
-        public ActionResult Login()
+        public AccountController()
         {
+            _userService = new AuthApi(AppUserInfo);
+        }
+
+        public AccountController(MyApplicationUserManager userManager, MyApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+        #region login
+        [AllowAnonymous]
+        public ActionResult Login(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
@@ -82,7 +92,9 @@ namespace CustomMVCIdentity.Controllers
             }
         }
 
+        #endregion
 
+        #region Register
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
@@ -100,6 +112,7 @@ namespace CustomMVCIdentity.Controllers
                 var user = new MyUser
                 {
                     UserName = model.Email,
+                    Email = model.Email,
                     Password = model.Password,
                     Firstname = model.Firstname,
                     Lastname = model.Lastname,
@@ -115,6 +128,8 @@ namespace CustomMVCIdentity.Controllers
                 {
                     try
                     {
+                       // var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+
                         var userRecord = _userService.GetUser(model.Email);
                         var code = await UserManager.GenerateEmailConfirmationTokenAsync(userRecord.Id);
                         if (Request.Url != null)
@@ -130,7 +145,7 @@ namespace CustomMVCIdentity.Controllers
                         }
                         AddViewMessage(StandardMessages.CustomMessageInfo, "Registeration successful. We have sent you a confirmation email, please confirm your email address to complete your registeration.");
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         AddViewMessage(StandardMessages.CustomMessageError, "Registeration successful but there was an error sending confirmation email.");
                     }
@@ -139,8 +154,9 @@ namespace CustomMVCIdentity.Controllers
                     {
                         await SignInManager.PasswordSignInAsync(model.Email, model.Password, true, shouldLockout: false);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        var error = ex.Message;
                         // ignored
                     }
 
@@ -152,6 +168,9 @@ namespace CustomMVCIdentity.Controllers
 
             return View(model);
         }
+
+        #endregion
+
 
         #region Helpers
         private void AddErrors(IdentityResult result)
